@@ -148,8 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     return null;
             }
-            // getItem is called to instantiate the fragment for the given page.
-
         }
 
         @Override
