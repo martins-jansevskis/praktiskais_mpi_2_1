@@ -1,20 +1,24 @@
 package lv.jansevskis.martins.praktiskais_mpi_2_1;
 
-import android.content.Context;
+import static android.app.Activity.RESULT_OK;
+
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -77,16 +81,19 @@ public class CameraFragment extends Fragment {
                     try {
                         photoFile = createImageFile();
                     } catch (IOException ex) {
-                         // Do nothing here
+                        // Error occurred while creating the File
                     }
 
                     if (photoFile != null) {
                         Uri photoURI = FileProvider.getUriForFile(getActivity().getApplicationContext(),
                                 "lv.jansevskis.martins.praktiskais_mpi_2_1.android.fileprovider",
                                 photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        takePictureIntent.putExtra("data", photoURI);
-                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        try {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(getActivity(), "Camera not available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
@@ -94,9 +101,9 @@ public class CameraFragment extends Fragment {
         return cameraView;
     }
 
-
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);

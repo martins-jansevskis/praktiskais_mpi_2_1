@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="Android/data/lv.jansevskis.martins.praktiskais_mpi_2_1/files/Pictures" />
-</PreferenceScreen>
+<!--<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <external-path name="my_images" path="Android/data/lv.jansevskis.martins.praktiskais_mpi_2_1/files/Pictures" />-->
+<!--</PreferenceScreen>-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+<external-files-path name="my_images" path="Pictures" />
+</paths>
